@@ -1,0 +1,154 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ course.title }} | Notes Portal</title>
+  
+  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+  <style>
+    body {
+      background: #f8f9fa;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      background: linear-gradient(to right, #5f90eb, #ce03f6);
+      padding: 10px 20px;
+      color: #fefefe;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
+    }
+    .navbar-left img {
+      height: 100px;
+      max-width: 100%;
+      border-radius: 6px;
+    }
+    .navbar-title {
+      font-size: 2vw;
+      font-weight: 600;
+      text-align: center;
+      color: #ffffff;
+      word-break: break-word;
+    }
+    #e {
+      font-size: 1.2vw;
+      color: rgb(144, 238, 202);
+      font-weight: 600;
+      display: block;
+    }
+    @media (max-width: 768px) {
+      .navbar-title { font-size: 5vw; }
+      #e { font-size: 3.5vw; }
+      .navbar-left { flex-direction: column; }
+    }
+
+    /* Chapters List */
+    .list-group-item {
+      border-radius: 12px !important;
+      margin-bottom: 12px;
+      transition: background 0.2s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+    }
+    .list-group-item:hover {
+      background: #f1f5ff;
+      transform: translateX(5px);
+    }
+
+    .unit-no {
+      font-weight: 700;
+      color: #5f90eb;
+      margin-right: 10px;
+      font-size: 1.05rem;
+    }
+
+    .chapter-title {
+      flex-grow: 1;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #333;
+      text-decoration: none;
+    }
+    .chapter-title:hover {
+      color: #5f90eb;
+    }
+
+    .view-btn {
+      background: linear-gradient(to right, #5f90eb, #ce03f6);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 6px 15px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+    .view-btn:hover {
+      background: linear-gradient(to right, #4b7de2, #a902d9);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-left">
+      <img src="{% static 'images/logo.jpg' %}" alt="Institute Logo" />
+      <div class="navbar-title">
+        Karamraji Institute of Computer Science & IT
+        <span id="e">Learning Portal</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course Info -->
+  <div class="container mt-4">
+    <div class="card mb-4">
+      <div class="card-body">
+        <h2 class="card-title">{{ course.title }}</h2>
+        <p class="card-text text-muted">{{ course.description }}</p>
+      </div>
+    </div>
+
+    <!-- Chapters Section -->
+    <h3 class="mb-3">📘 Units</h3>
+    <ul class="list-group">
+      {% for chapter in course.chapters.all %}
+        {% if chapter.is_visible %}
+          <li class="list-group-item">
+            <span class="unit-no">Unit-{{ forloop.counter }}</span>
+            <a href="{% url 'chapter_detail' chapter.id %}" class="chapter-title">
+              {{ chapter.title }}
+            </a>
+            <a href="{% url 'chapter_detail' chapter.id %}">
+              <button class="view-btn">View</button>
+            </a>
+          </li>
+        {% endif %}
+      {% empty %}
+        <li class="list-group-item text-muted">No chapters available</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

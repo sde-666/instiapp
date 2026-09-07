@@ -1,2 +1,1 @@
-# instiapp
-notes
+This Project is for Providing notes to students date wise 
